@@ -26,7 +26,7 @@ tags[], stack[], metrics[{value,label}], challenges[{title, problem, solution}]`
 
 ## Кейсы (вымышленные)
 1. Сайт и онлайн-запись для многопрофильной больницы (MedSite).
-2. Киоски самообслуживания на Avalonia (avalonia-kiosk).
+2. Кассы самообслуживания на Avalonia (avalonia-kiosk).
 3. VPN-сервис с клиентами под все платформы (VPN).
 4. «Поток» — планировщик задач для команд (Task-Scheduler).
 
