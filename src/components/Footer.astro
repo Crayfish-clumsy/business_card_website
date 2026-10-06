@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import Brand from './Brand.astro';
+import { SITE } from '../config';
+
+const cases = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+---
+<footer class="footer shell">
+  <div class="footer-left">
+    <Brand />
+    <p>{SITE.description}</p>
+  </div>
+  <div class="footer-links">
+    <div>
+      <span>Кейсы</span>
+      {cases.map((c) => <a href={`/cases/${c.id}/`}>{c.data.short}</a>)}
+    </div>
+    <div>
+      <span>Студия</span>
+      <a href="/#directions">Направления</a>
+      <a href="/#process">Как работаем</a>
+      <a href="/#contact">Контакты</a>
+    </div>
+    <div>
+      <span>Связь</span>
+      <a href={SITE.telegram} target="_blank" rel="noopener">Telegram</a>
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      <a href="#top">Наверх ↑</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© {year} {SITE.name}</span>
+    <span>{SITE.city}</span>
+  </div>
+</footer>

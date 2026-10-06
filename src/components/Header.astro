@@ -1,0 +1,19 @@
+---
+import Brand from './Brand.astro';
+---
+<header class="header shell">
+  <Brand />
+  <nav class="nav" aria-label="Основная навигация">
+    <a href="/#directions">Направления</a>
+    <a href="/#cases">Кейсы</a>
+    <a href="/#process">Как работаем</a>
+    <a href="/#contact">Контакты</a>
+  </nav>
+  <div class="header-actions">
+    <button class="theme-toggle" type="button" aria-label="Переключить тему">
+      <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">☾</span>
+      <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">☀</span>
+    </button>
+    <a class="glass-btn glass-btn--small" href="/#contact">Обсудить проект</a>
+  </div>
+</header>

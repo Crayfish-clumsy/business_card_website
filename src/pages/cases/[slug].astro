@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CaseVisual from '../../components/CaseVisual.astro';
+
+export async function getStaticPaths() {
+  const cases = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
+  return cases.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: cases[(i + 1) % cases.length] },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'cases'>;
+  next: CollectionEntry<'cases'>;
+}
+const { entry, next } = Astro.props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+const toc = [
+  ...headings.filter((h) => h.depth === 2).map((h) => ({ id: h.slug, text: h.text })),
+  { id: 'challenges', text: 'Сложности' },
+  { id: 'result', text: 'Результат' },
+  { id: 'stack', text: 'Стек' },
+];
+---
+<Base title={d.short} description={d.summary}>
+  <div class="shell">
+    <a class="back" href="/#cases">← Все кейсы</a>
+
+    <section class="case-hero">
+      <div>
+        <span class="eyebrow">{d.client}</span>
+        <h1>{d.title}</h1>
+        <p class="hero-lead">{d.summary}</p>
+        <div class="hero-chips">{d.tags.map((t) => <span class="chip"><i></i>{t}</span>)}</div>
+        <div class="case-meta">
+          <div>Год<b>{d.year}</b></div>
+          <div>Срок<b>{d.duration}</b></div>
+          <div>Клиент<b>{d.client}</b></div>
+        </div>
+      </div>
+      <div class="case-hero__visual glass-card"><CaseVisual variant={d.visual} /></div>
+    </section>
+
+    <section class="metrics glass-card reveal" aria-label="Результаты в цифрах">
+      {d.metrics.map((m) => (
+        <div class="metric"><strong>{m.value}</strong><span>{m.label}</span></div>
+      ))}
+    </section>
+
+    <div class="case-layout">
+      <aside class="case-aside">
+        <span class="micro-label">Содержание</span>
+        <nav aria-label="Содержание кейса">
+          {toc.map((t) => <a href={`#${t.id}`} data-toc>{t.text}</a>)}
+        </nav>
+      </aside>
+
+      <article class="prose">
+        <Content />
+
+        <h2 id="challenges">Сложности<br /><span style="color:var(--faint)">и как мы их решили</span></h2>
+        <div class="challenges">
+          {d.challenges.map((c, i) => (
+            <div class="challenge glass-card reveal">
+              <span class="num">0{i + 1}</span>
+              <div>
+                <h3>{c.title}</h3>
+                <div class="challenge-cols">
+                  <div><span class="micro-label">Проблема</span><p>{c.problem}</p></div>
+                  <div><span class="micro-label">Решение</span><p>{c.solution}</p></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <h2 id="result">Результат</h2>
+        <p>{d.result}</p>
+
+        <h2 id="stack">Стек</h2>
+        <div class="stack">{d.stack.map((s) => <span class="chip"><i></i>{s}</span>)}</div>
+      </article>
+    </div>
+
+    <a class="next-case glass-card reveal" href={`/cases/${next.id}/`}>
+      <div>
+        <span class="micro-label">Следующий кейс</span>
+        <h2>{next.data.title}</h2>
+      </div>
+      <span class="case-card__arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</Base>
