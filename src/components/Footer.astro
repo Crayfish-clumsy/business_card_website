@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Brand from './Brand.astro';
-import { SITE } from '../config';
+import { SITE, url } from '../config';
 
 const cases = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
 const year = new Date().getFullYear();
@@ -14,13 +14,13 @@ const year = new Date().getFullYear();
   <div class="footer-links">
     <div>
       <span>Кейсы</span>
-      {cases.map((c) => <a href={`/cases/${c.id}/`}>{c.data.short}</a>)}
+      {cases.map((c) => <a href={url(`/cases/${c.id}/`)}>{c.data.short}</a>)}
     </div>
     <div>
       <span>Студия</span>
-      <a href="/#directions">Направления</a>
-      <a href="/#process">Как работаем</a>
-      <a href="/#contact">Контакты</a>
+      <a href={url('/#directions')}>Направления</a>
+      <a href={url('/#process')}>Как работаем</a>
+      <a href={url('/#contact')}>Контакты</a>
     </div>
     <div>
       <span>Связь</span>

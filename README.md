@@ -8,6 +8,11 @@ npm run dev      # http://localhost:4321
 npm run build    # готовый сайт в dist/
 ```
 
+Деплой: каждый push в `main` публикует сайт на GitHub Pages
+(https://crayfish-clumsy.github.io/business_card_website/) через `.github/workflows/deploy.yml`.
+При смене адреса поправьте `site` и `base` в `astro.config.mjs`.
+
+
 - **Название и контакты** — `src/config.ts`.
 - **Кейсы** — `src/content/cases/*.md`. Новый кейс = новый файл: скопируйте любой
   существующий и поменяйте frontmatter (метрики, сложности, стек) и текст.

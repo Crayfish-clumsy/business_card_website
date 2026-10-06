@@ -9,3 +9,7 @@ export const SITE = {
   email: 'hello@example.com',
   city: 'Россия · удалённо',
 };
+
+// Ссылка с учётом base из astro.config (сайт живёт в подпапке на GitHub Pages).
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+export const url = (path: string) => `${BASE}${path}`;

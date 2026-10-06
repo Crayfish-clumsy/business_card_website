@@ -1,7 +1,7 @@
 ---
-import { SITE } from '../config';
+import { SITE, url } from '../config';
 ---
-<a class="brand" href="/" aria-label={`${SITE.name} — на главную`}>
+<a class="brand" href={url('/')} aria-label={`${SITE.name} — на главную`}>
   <span class="brand-symbol" aria-hidden="true">
     <i class="brand-orbit brand-orbit-a"></i>
     <i class="brand-orbit brand-orbit-b"></i>

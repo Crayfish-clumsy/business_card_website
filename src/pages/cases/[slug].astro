@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { url } from '../../config';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import CaseVisual from '../../components/CaseVisual.astro';
@@ -28,7 +29,7 @@ const toc = [
 ---
 <Base title={d.short} description={d.summary}>
   <div class="shell">
-    <a class="back" href="/#cases">← Все кейсы</a>
+    <a class="back" href={url('/#cases')}>← Все кейсы</a>
 
     <section class="case-hero">
       <div>
@@ -86,7 +87,7 @@ const toc = [
       </article>
     </div>
 
-    <a class="next-case glass-card reveal" href={`/cases/${next.id}/`}>
+    <a class="next-case glass-card reveal" href={url(`/cases/${next.id}/`)}>
       <div>
         <span class="micro-label">Следующий кейс</span>
         <h2>{next.data.title}</h2>

@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import CaseVisual from './CaseVisual.astro';
+import { url } from '../config';
 
 interface Props {
   entry: CollectionEntry<'cases'>;
@@ -10,7 +11,7 @@ const { entry, index } = Astro.props;
 const { title, summary, tags, metrics, visual, year } = entry.data;
 const lead = metrics[0];
 ---
-<a class="case-card glass-card reveal" href={`/cases/${entry.id}/`}>
+<a class="case-card glass-card reveal" href={url(`/cases/${entry.id}/`)}>
   <div class="case-card__top">
     <span class="mono">{String(index + 1).padStart(2, '0')} / {year}</span>
     <div class="tags">{tags.map((t) => <span class="chip">{t}</span>)}</div>
