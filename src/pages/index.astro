@@ -50,22 +50,37 @@ const steps = [
       </div>
     </div>
 
-    <nav class="hero-index" aria-label="Последние проекты">
-      <p class="label">Последние проекты</p>
-      <ol>
-        {cases.map((c) => (
-          <li>
-            <a href={url(`/cases/${c.id}/`)}>
-              <span class="hero-index__title">{c.data.short}</span>
-              <span class="hero-index__metric">
-                <strong>{c.data.metrics[0].value}</strong>
-                <span>{c.data.metrics[0].label}</span>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ol>
-    </nav>
+    {cases.length > 1 ? (
+      <nav class="hero-index" aria-label="Последние проекты">
+        <p class="label">Последние проекты</p>
+        <ol>
+          {cases.map((c) => (
+            <li>
+              <a href={url(`/cases/${c.id}/`)}>
+                <span class="hero-index__title">{c.data.short}</span>
+                <span class="hero-index__metric">
+                  <strong>{c.data.metrics[0].value}</strong>
+                  <span>{c.data.metrics[0].label}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    ) : (
+      // Пока кейс один — показываем его результаты, а не список из одной строки.
+      <a class="hero-index" href={url(`/cases/${cases[0].id}/`)}>
+        <p class="label">Последний проект · {cases[0].data.short} →</p>
+        <ol>
+          {cases[0].data.metrics.map((m) => (
+            <li class="hero-index__metric">
+              <strong>{m.value}</strong>
+              <span>{m.label}</span>
+            </li>
+          ))}
+        </ol>
+      </a>
+    )}
   </section>
 
   <section class="section shell" id="directions">
@@ -78,10 +93,12 @@ const steps = [
         <li class="direction">
           <h3>{d.title}</h3>
           <p>{d.text}</p>
-          <a class="direction__case" href={url(`/cases/${d.caseId}/`)}>
-            <span class="label">Кейс</span>
-            {byId[d.caseId].data.short} <span aria-hidden="true">→</span>
-          </a>
+          {byId[d.caseId] && (
+            <a class="direction__case" href={url(`/cases/${d.caseId}/`)}>
+              <span class="label">Кейс</span>
+              {byId[d.caseId].data.short} <span aria-hidden="true">→</span>
+            </a>
+          )}
         </li>
       ))}
     </ul>

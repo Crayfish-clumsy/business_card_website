@@ -83,6 +83,7 @@ const toc = [
       </article>
     </div>
 
+{next.id !== entry.id && (
     <a class="next-case" href={url(`/cases/${next.id}/`)}>
       <div>
         <span class="label">Следующий кейс</span>
@@ -90,5 +91,6 @@ const toc = [
       </div>
       <span class="case-card__arrow" aria-hidden="true">→</span>
     </a>
+    )}
   </div>
 </Base>
