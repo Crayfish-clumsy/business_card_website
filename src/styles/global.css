@@ -128,11 +128,6 @@ h3{letter-spacing:-.015em;line-height:1.25}
 .hero-index__title{font-size:16px;font-weight:500;color:var(--heading)}
 .hero-index__metric{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--faint)}
 .hero-index__metric strong{font-size:15px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
-/* вариант с одним кейсом: метрики проекта столбиком */
-a.hero-index{display:block}
-a.hero-index li.hero-index__metric{padding:16px 0;gap:14px;font-size:14px}
-a.hero-index li.hero-index__metric strong{flex:none;min-width:4.5ch;font-size:24px;letter-spacing:-.03em;color:var(--heading)}
-a.hero-index:hover .label{color:var(--heading)}
 
 /* =========================================================
    SECTIONS
@@ -154,11 +149,6 @@ a.hero-index:hover .label{color:var(--heading)}
 /* cases */
 .cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px 32px}
 .case-card{display:flex;flex-direction:column}
-/* единственный кейс: картинка слева, текст справа */
-.cases:has(>.case-card:only-child){grid-template-columns:1fr}
-.case-card:only-child{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);column-gap:48px;align-content:start}
-.case-card:only-child .case-card__visual{grid-row:1/span 5;height:380px}
-.case-card:only-child .case-card__meta{margin-top:0}
 .case-card__visual{height:300px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);overflow:hidden;position:relative;transition:border-color .25s ease}
 .case-card:hover .case-card__visual{border-color:var(--line-2)}
 .case-card__meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin:22px 0 12px}
@@ -342,9 +332,6 @@ main:has(>.contact:last-child)+.footer,main:has(.next-case)+.footer{margin-top:0
   .direction h3{font-size:19px}
   .cases{grid-template-columns:1fr;gap:56px}
   .case-card__visual{height:240px}
-  .case-card:only-child{display:flex}
-  .case-card:only-child .case-card__visual{height:240px}
-  .case-card:only-child .case-card__meta{margin-top:22px}
   .case-card h3{font-size:22px}
   .process{grid-template-columns:1fr}
   .process{row-gap:0}
