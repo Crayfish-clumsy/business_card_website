@@ -20,11 +20,11 @@ const fullTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — ${SITE
     <meta name="description" content={description} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta name="theme-color" content="#08080a" />
+    <meta name="theme-color" content="#0c0c0d" />
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <!-- Тема ставится до отрисовки, чтобы не мигало -->
     <script is:inline>
       (() => {
@@ -36,9 +36,6 @@ const fullTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — ${SITE
     </script>
   </head>
   <body>
-    <div class="page-noise" aria-hidden="true"></div>
-    <div class="ambient ambient-a" aria-hidden="true"></div>
-    <div class="ambient ambient-b" aria-hidden="true"></div>
     <Header />
     <main id="top">
       <slot />

@@ -17,26 +17,6 @@
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- HERO PARALLAX ---------- */
-  const field = document.querySelector('[data-parallax-field]');
-  const card = document.querySelector('[data-parallax="card"]');
-  const orb = document.querySelector('[data-parallax="orb"]');
-
-  if (field && card && orb && !reduceMotion && window.matchMedia('(pointer:fine)').matches) {
-    field.addEventListener('mousemove', (event) => {
-      const r = field.getBoundingClientRect();
-      const x = (event.clientX - r.left) / r.width - 0.5;
-      const y = (event.clientY - r.top) / r.height - 0.5;
-      card.style.transform =
-        `translate(calc(-50% + ${x * 12}px), calc(-50% + ${y * 10}px)) rotate(${-3 + x * 2}deg)`;
-      orb.style.transform = `translate3d(${x * -12}px, ${y * -10}px, 0)`;
-    });
-    field.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-      orb.style.transform = '';
-    });
-  }
-
   /* ---------- REVEAL ---------- */
   const revealTargets = document.querySelectorAll('.reveal');
   if (reduceMotion || !('IntersectionObserver' in window)) {

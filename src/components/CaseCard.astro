@@ -11,21 +11,18 @@ const { entry, index } = Astro.props;
 const { title, summary, tags, metrics, visual, year } = entry.data;
 const lead = metrics[0];
 ---
-<a class="case-card glass-card reveal" href={url(`/cases/${entry.id}/`)}>
-  <div class="case-card__top">
-    <span class="mono">{String(index + 1).padStart(2, '0')} / {year}</span>
-    <div class="tags">{tags.map((t) => <span class="chip">{t}</span>)}</div>
-  </div>
+<a class="case-card reveal" href={url(`/cases/${entry.id}/`)}>
   <div class="case-card__visual"><CaseVisual variant={visual} /></div>
-  <div>
-    <h3>{title}</h3>
-    <p>{summary}</p>
-  </div>
+  <p class="case-card__meta label">
+    <span>{String(index + 1).padStart(2, '0')}</span>
+    <span>{year}</span>
+    <span>{tags.join(' · ')}</span>
+  </p>
+  <h3>{title}</h3>
+  <p class="case-card__summary">{summary}</p>
   <div class="case-card__foot">
-    <div class="case-card__metric">
-      <strong>{lead.value}</strong>
-      <span>{lead.label}</span>
-    </div>
+    <strong>{lead.value}</strong>
+    <span>{lead.label}</span>
     <span class="case-card__arrow" aria-hidden="true">→</span>
   </div>
 </a>

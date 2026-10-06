@@ -2,35 +2,32 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CaseCard from '../components/CaseCard.astro';
-import { SITE } from '../config';
+import { SITE, url } from '../config';
 
 const cases = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
+const byId = Object.fromEntries(cases.map((c) => [c.id, c]));
 
-const stack = [
-  '.NET', 'Avalonia UI', 'TypeScript', 'React', 'Astro', 'Node.js', 'Go',
-  'Kotlin', 'Swift', 'PostgreSQL', 'Redis', 'WireGuard', 'Docker', 'Terraform',
-];
-
+// Каждое направление подкреплено кейсом — без него это просто строчка в прайсе.
 const directions = [
   {
-    glyph: '</>',
     title: 'Веб и порталы',
     text: 'Сайты с бизнес-логикой, личные кабинеты, онлайн-запись и интеграции со старыми системами клиента.',
+    caseId: 'clinic-booking',
   },
   {
-    glyph: '▢',
     title: 'Десктоп и кассы самообслуживания',
     text: 'Кроссплатформенные приложения на Avalonia, работа с железом, офлайн-режим и удалённые обновления парка.',
+    caseId: 'self-checkout',
   },
   {
-    glyph: '◎',
     title: 'Сети и безопасность',
     text: 'VPN, защищённые каналы, инфраструктура как код, мониторинг и отказоустойчивость.',
+    caseId: 'private-vpn',
   },
   {
-    glyph: '≡',
     title: 'Внутренние системы',
     text: 'Планировщики, CRM, админки и дашборды, которые заменяют Excel и ручные сводки.',
+    caseId: 'potok-scheduler',
   },
 ];
 
@@ -43,90 +40,57 @@ const steps = [
 ---
 <Base>
   <section class="hero shell">
-    <div>
-      <span class="eyebrow">{SITE.tagline}</span>
-      <h1>Делаем софт,<br /><span>который работает в проде.</span></h1>
+    <div class="hero-main">
+      <p class="hero-kicker">{SITE.tagline}</p>
+      <h1>Пишем софт там, где он встречается с&nbsp;железом, сетью и&nbsp;старыми системами.</h1>
       <p class="hero-lead">{SITE.description}</p>
       <div class="hero-actions">
-        <a class="glass-btn glass-btn--primary glass-btn--large" href="#cases"><span class="btn-dot"></span>Смотреть кейсы</a>
-        <a class="glass-btn glass-btn--large" href="#contact">Обсудить проект ↗</a>
-      </div>
-      <div class="hero-chips">
-        <span class="chip"><i></i> Веб · десктоп · мобайл</span>
-        <span class="chip"><i></i> Под ключ или усиление команды</span>
-        <span class="chip"><i></i> Поддержка после запуска</span>
+        <a class="btn btn--primary" href="#contact">Обсудить проект</a>
+        <a class="btn" href="#cases">Смотреть кейсы</a>
       </div>
     </div>
 
-    <div class="hero-visual" aria-hidden="true">
-      <div class="field" data-parallax-field>
-        <div class="orbit-line orbit-line--a"></div>
-        <div class="orbit-line orbit-line--b"></div>
-        <i class="spark spark--1"></i><i class="spark spark--2"></i><i class="spark spark--3"></i>
-
-        <div class="deploy-card glass-card" data-parallax="card">
-          <div class="deploy-head">
-            <span class="micro-label">Release pipeline</span>
-            <span class="mono micro-label">v2.14.0</span>
-          </div>
-          <div class="deploy-title">Выкатываем в прод</div>
-          <ul class="deploy-steps">
-            <li><b>Сборка</b><span class="mono">42 c</span></li>
-            <li><b>Тесты</b><span class="mono">318 passed</span></li>
-            <li><b>Ревью</b><span class="mono">2 / 2</span></li>
-            <li class="is-pending"><b>Деплой</b><span class="mono">в процессе</span></li>
-          </ul>
-          <div class="deploy-foot"><span class="micro-label">prod</span><i></i></div>
-        </div>
-
-        <div class="orb glass-card" data-parallax="orb">
-          <div class="orb__halo"></div>
-          <div class="orb__inner">{'{ }'}</div>
-          <small class="micro-label">Clean code</small>
-        </div>
-
-        <div class="mini mini--uptime glass-card">
-          <span class="micro-label">Uptime</span>
-          <strong>99,9%</strong>
-          <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>
-        </div>
-
-        <div class="mini mini--route glass-card">
-          <span class="micro-label">Идея → релиз</span>
-          <div class="route"><i class="route-dot"></i><span></span><i class="route-dot route-dot--on"></i></div>
-          <small>Прототип за 3 недели</small>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="marquee-wrap" aria-label="Технологии">
-    <div class="marquee">
-      {[...stack, ...stack].map((s) => <><span>{s}</span><i></i></>)}
-    </div>
+    <nav class="hero-index" aria-label="Последние проекты">
+      <p class="label">Последние проекты</p>
+      <ol>
+        {cases.map((c) => (
+          <li>
+            <a href={url(`/cases/${c.id}/`)}>
+              <span class="hero-index__title">{c.data.short}</span>
+              <span class="hero-index__metric">
+                <strong>{c.data.metrics[0].value}</strong>
+                <span>{c.data.metrics[0].label}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
   </section>
 
   <section class="section shell" id="directions">
     <div class="section-head">
-      <h2>Что мы<br /><span>делаем.</span></h2>
-      <p>Небольшая команда инженеров, которая берёт задачу целиком: от аналитики и дизайна до инфраструктуры. Хорошо чувствуем себя там, где софт встречается с железом, сетью и старыми системами.</p>
+      <h2>Что мы делаем</h2>
+      <p>Небольшая команда инженеров, которая берёт задачу целиком: от аналитики и дизайна до инфраструктуры.</p>
     </div>
-    <div class="directions">
-      {directions.map((d, i) => (
-        <article class="direction glass-card reveal">
-          <span class="index mono">0{i + 1}</span>
-          <span class="glyph">{d.glyph}</span>
+    <ul class="directions">
+      {directions.map((d) => (
+        <li class="direction">
           <h3>{d.title}</h3>
           <p>{d.text}</p>
-        </article>
+          <a class="direction__case" href={url(`/cases/${d.caseId}/`)}>
+            <span class="label">Кейс</span>
+            {byId[d.caseId].data.short} <span aria-hidden="true">→</span>
+          </a>
+        </li>
       ))}
-    </div>
+    </ul>
   </section>
 
   <section class="section shell" id="cases">
     <div class="section-head">
-      <h2>Кейсы.<br /><span>С подробностями.</span></h2>
-      <p>Рассказываем не только что сделали, но и где было сложно: какие проблемы встретили и как их решили. Так проще понять, как мы думаем.</p>
+      <h2>Кейсы</h2>
+      <p>Рассказываем не только что сделали, но и где было сложно: какие проблемы встретили и как их решили.</p>
     </div>
     <div class="cases">
       {cases.map((entry, i) => <CaseCard entry={entry} index={i} />)}
@@ -135,30 +99,34 @@ const steps = [
 
   <section class="section shell" id="process">
     <div class="section-head">
-      <h2>Как<br /><span>работаем.</span></h2>
-      <p>Прозрачный процесс без сюрпризов: вы всегда знаете, что сделано, что в работе и сколько это стоит.</p>
+      <h2>Как работаем</h2>
+      <p>Вы всегда знаете, что сделано, что в работе и сколько это стоит.</p>
     </div>
-    <div class="process glass-card reveal">
+    <ol class="process">
       {steps.map((s, i) => (
-        <div class="step">
-          <span class="num">0{i + 1}</span>
+        <li class="step">
+          <div class="step__top label"><span>0{i + 1}</span><span>{s.time}</span></div>
           <h3>{s.title}</h3>
           <p>{s.text}</p>
-          <small class="mono">{s.time}</small>
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   </section>
 
-  <section class="shell" id="contact">
-    <div class="cta glass-card reveal">
-      <div class="cta-symbol" aria-hidden="true"><i></i><i></i><b></b></div>
-      <h2>Есть задача?<br /><span style="color:var(--faint)">Давайте обсудим.</span></h2>
-      <p>Расскажите, что хотите сделать, — в течение дня ответим, зададим вопросы и предложим, с чего начать.</p>
-      <div class="hero-actions">
-        <a class="glass-btn glass-btn--primary glass-btn--large" href={SITE.telegram} target="_blank" rel="noopener"><span class="btn-dot"></span>Написать в Telegram</a>
-        <a class="glass-btn glass-btn--large" href={`mailto:${SITE.email}`}>{SITE.email}</a>
-      </div>
+  <section class="contact shell" id="contact">
+    <div>
+      <h2>Есть задача — напишите.</h2>
+      <p>Расскажите, что хотите сделать. В течение дня ответим, зададим вопросы и предложим, с чего начать.</p>
     </div>
+    <ul class="contact-links">
+      <li>
+        <span class="label">Telegram</span>
+        <a href={SITE.telegram} target="_blank" rel="noopener">{SITE.telegramLabel} <span aria-hidden="true">↗</span></a>
+      </li>
+      <li>
+        <span class="label">Почта</span>
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </li>
+    </ul>
   </section>
 </Base>
